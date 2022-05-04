@@ -1,0 +1,15 @@
+nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    .container-fluid
+        a.navbar-brand(href='/') imageBoard
+        button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
+            span.navbar-toggler-icon
+        #navbarNav.collapse.navbar-collapse
+            ul.navbar-nav
+                li.nav-item
+                    a.nav-link.active.navFont(aria-current='page' href='/') Главная
+                li.nav-item
+                    a.nav-link.navFont(href='/boards') Доски
+                li.nav-item
+                    a.nav-link.navFont(href='/stats') Статистика
+                li.nav-item
+                    a.nav-link.navFont(href='/nickname') Изменить имя

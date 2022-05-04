@@ -1,0 +1,11 @@
+include partials/master
+
+.container-fluid
+    h3.mb-3.text-center Измените ваше имя
+    form(method='post' action='/nickname')
+        h3
+            | Ваше имя 
+            span.nickname #{nickname}
+        h3.nickname  
+        input.mb-2.form-control.form-control-lg(name='nickname' type='text' placeholder='Впишите ваше имя здесь' aria-label='.form-control-lg') 
+        button.btn.btn-primary(type='submit') Изменить

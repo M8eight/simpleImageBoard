@@ -1,0 +1,33 @@
+include partials/master
+
+.container
+    .row
+        h2.m-3.text-center Доски
+    .row
+        .col-10
+            each board, index in boards
+                .card.mb-3
+                    img(width="200" src='https://play-lh.googleusercontent.com/-xQLFN2MYVXVsAYyn9lCpER-_KhICOGYQ7U3MnAGDkTF6Jo7CA-F7NMObn9gkRO4eRc'  alt='')
+                    .card-body
+                        h5.card-title 
+                            a(href=`/board/${board.id}`) #{board.name}
+                        p.card-text
+                            | Автор: #{board.author}
+                        p.card-text
+                            .text-muted.text-end.fs-6= moment(boards.createdAt).format("DD/MM/YYYY HH:mm")
+        .col-2
+            if nickname
+                button.btn.btn-primary.p-3(type='button' data-bs-toggle='offcanvas' data-bs-target='#offcanvasRight' aria-controls='offcanvasRight') Создать доску
+                #offcanvasRight.offcanvas.offcanvas-end(tabindex='-1' aria-labelledby='offcanvasRightLabel')
+                    .offcanvas-header
+                        h5#offcanvasRightLabel Создайте доску
+                        button.btn-close.text-reset(type='button' data-bs-dismiss='offcanvas' aria-label='Close')
+                    .offcanvas-body
+                        form(action="/board", method="post")
+                            .mb-3
+                                label.form-label Название доски
+                                input.form-control(type='text', placeholder="Введите название доски", name="name")
+                            button.btn.btn-primary(type='submit') Отправить
+            else 
+                p.text-danger.fs-3 Вы не можете создавать доски анонимно   
+                    a(href="/nickname") Записать имя пользователя

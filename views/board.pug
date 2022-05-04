@@ -1,0 +1,48 @@
+include partials/master
+
+.container
+    a(name="top")
+    .row
+        h2.m-3.text-center Доска
+    .row
+        .col-9
+            each message, index in messages        
+                .card.text-black.bg-light.mb-2
+                    .card-header.p-2
+                        span
+                            b #{message.author}
+                    .card-body
+                        .col-8
+                            span.card-text #{message.message}
+                        span.card-title 
+                            span 
+                                .text-end= moment(message.createdAt).format("DD/MM/YYYY HH:mm")
+        .col-3
+            if nickname
+                div.sticky-top.p-4
+                    button.btn.btn-primary.m-2(type='button' data-bs-toggle='offcanvas' data-bs-target='#offcanvasRight' aria-controls='offcanvasRight') Отправить сообщение
+                    #offcanvasRight.offcanvas.offcanvas-end(tabindex='-1' aria-labelledby='offcanvasRightLabel')
+                        .offcanvas-header
+                            h5#offcanvasRightLabel Написать сообщение
+                            button.btn-close.text-reset(type='button' data-bs-dismiss='offcanvas' aria-label='Close')
+                        .offcanvas-body
+                            form(action="/message", method="post")
+                                .mb-3
+                                    label.form-label Текст сообщения
+                                    input.form-control(type='text', placeholder="Введите текст сообщения", name="message")
+                                    input.form-control(type="hidden", name="boardId",value= boardId)
+                                button.btn.btn-primary(type='submit') Отправить
+
+                    a.btn.btn-secondary.m-1(href="#top")
+                        svg.bi.bi-arrow-up-circle(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
+                            path(fill-rule='evenodd' d='M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z')
+
+                    a.btn.btn-secondary.m-1(href="#bottom")
+                        svg.bi.bi-arrow-down-circle(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
+                            path(fill-rule='evenodd' d='M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z')
+
+            else 
+                p.text-danger.fs-3 Вы не можете писать сообщения анонимно   
+                    a(href="/nickname") Записать имя пользователя
+
+a(name="bottom")
