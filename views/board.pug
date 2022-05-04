@@ -16,7 +16,7 @@ include partials/master
                             span.card-text #{message.message}
                         span.card-title 
                             span 
-                                .text-end= moment(message.createdAt).format("DD/MM/YYYY HH:mm")
+                                .text-end= moment(message.createdAt).format("DD.MM.YYYY HH:mm")
         .col-3
             if nickname
                 div.sticky-top.p-4
@@ -29,7 +29,7 @@ include partials/master
                             form(action="/message", method="post")
                                 .mb-3
                                     label.form-label Текст сообщения
-                                    input.form-control(type='text', placeholder="Введите текст сообщения", name="message")
+                                    input.form-control(type='text', placeholder="Введите текст сообщения", name="message" required="required")
                                     input.form-control(type="hidden", name="boardId",value= boardId)
                                 button.btn.btn-primary(type='submit') Отправить
 
