@@ -17,7 +17,7 @@ To deploy the project run
 4. Run the command: 
 ``node index format-db``
 OR
-``npm run formatDB``
+``npm run formatDB``,
 open public server at the address and port you have chosen, go to the "boards" section and close the page.
 [Video guide](https://youtu.be/eSe7ta88ZBs).
 
@@ -32,5 +32,8 @@ OR
 ``npm rut formatDB``
 
 RoadMap: 
+to translate into other languages
+make images zoom in when you click on them
+unload by files, index.js file
 
 @m8eight
