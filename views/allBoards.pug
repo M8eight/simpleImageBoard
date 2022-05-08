@@ -6,8 +6,10 @@ include partials/master
     .row
         .col-10
             each board, index in boards
-                .card.mb-3
-                    img(width="200" src='https://play-lh.googleusercontent.com/-xQLFN2MYVXVsAYyn9lCpER-_KhICOGYQ7U3MnAGDkTF6Jo7CA-F7NMObn9gkRO4eRc'  alt='')
+                .card.text-black.bg-light.mb-2.p-2
+                    .imagePlace
+                        if board.image
+                            img(id="postImage" width="500px" src=`img/${board.image}` class="img-thumbnail")
                     .card-body
                         h5.card-title 
                             a(href=`/board/${board.id}`) #{board.name}
@@ -23,10 +25,12 @@ include partials/master
                         h5#offcanvasRightLabel Создайте доску
                         button.btn-close.text-reset(type='button' data-bs-dismiss='offcanvas' aria-label='Close')
                     .offcanvas-body
-                        form(action="/board", method="post")
+                        form(action="/board", method="post", enctype="multipart/form-data")
                             .mb-3
                                 label.form-label Название доски
                                 input.form-control(type='text', placeholder="Введите название доски", name="name" required="required")
+                                label.form-label(for='formFile') Загрузите изображение
+                                input#formFile.form-control(type='file', name="image", accept="image/png, image/jpeg, image/jpeg")
                             button.btn.btn-primary(type='submit') Отправить
             else 
                 p.text-danger.fs-3 Вы не можете создавать доски анонимно   

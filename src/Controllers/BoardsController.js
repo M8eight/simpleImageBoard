@@ -1,14 +1,14 @@
+import 'dotenv/config';
 import { Sequelize } from "sequelize";
-import process from "process";
 
-const sequelize = new Sequelize("imageboard", "root", "", {
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_LOGIN, process.env.DB_PASSWORD, {
 	dialect: "mysql",
-	host: "localhost",
+	host: process.env.HOST_ADDRESS,
 	logging: false,
 });
 
 var firstStart = {};
-if (process.argv[2] == "init") {
+if (process.argv[2] == "format-db") {
 	firstStart = { force: true };
 }
 
@@ -27,6 +27,10 @@ const Board = sequelize.define("board", {
 		type: Sequelize.STRING,
 		allowNull: false,
 	},
+	image: {
+		type: Sequelize.STRING,
+		allowNull: true,
+	},
 });
 
 const Message = sequelize.define("message", {
@@ -43,6 +47,10 @@ const Message = sequelize.define("message", {
 	message: {
 		type: Sequelize.TEXT,
 		allowNull: false,
+	},
+	image: {
+		type: Sequelize.STRING,
+		allowNull: true,
 	},
 });
 
@@ -71,6 +79,18 @@ export default class {
 			});
 	}
 
+	static createBoard(name, author, image,callback) {
+		Board.create({
+			name: name,
+			author: author,
+			image: image,
+		}).catch((err) => {
+			console.log(err);
+			callback(false);
+		});
+		callback(true);
+	}
+
 	static findMessage(id, callback) {
 		let boardId = parseInt(id);
 
@@ -89,22 +109,12 @@ export default class {
 			});
 	}
 
-	static createBoard(name, author, callback) {
-		Board.create({
-			name: name,
-			author: author,
-		}).catch((err) => {
-			console.log(err);
-			callback(false);
-		});
-		callback(true);
-	}
-
-	static createMessage(author, message, boardId, callback) {
+	static createMessage(author, message, image, boardId, callback) {
 		Message.create({
 			author: author,
 			message: message,
-			boardId: boardId,
+			image: image,
+			boardId: boardId
 		}).catch((err) => {
 			console.log(err);
 			callback(false);

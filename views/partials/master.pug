@@ -18,5 +18,14 @@ html(lang="ru")
                 text-align
             }
 
+            .imagePlace {
+                overflow: hidden;
+            }
+            .imagePlace img {
+                transition: transform .5s ease-in-out;
+            }
+            .imagePlace img:hover {
+                transform: scale(1.2);
+            }
     body 
         include navbar.pug

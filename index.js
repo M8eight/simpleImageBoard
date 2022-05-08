@@ -1,19 +1,21 @@
-import moment from "moment";		//helpers
+import "dotenv/config";
+import moment from "moment";
 import chalk from "chalk";
 
-import cookieParser from "cookie-parser";		//Cookie etc
-import session from "express-session";		
+import cookieParser from "cookie-parser";
+import session from "express-session";
 import flash from "connect-flash";
 
-import express from "express";		//express
+import express from "express";
 const app = express();
 
 import BoardsController from "./src/Controllers/BoardsController.js";
+import uploadMiddleware from "./src/Middleware/uploadImage.js";
 
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 app.locals.moment = moment;
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 const jsonParser = express.json();
 
 app.use(
@@ -26,7 +28,6 @@ app.use(
 );
 app.use(cookieParser("Secret"));
 app.use(flash());
-
 
 app.get("/", (req, res) => {
 	let error = req.flash("error");
@@ -51,6 +52,7 @@ app.get("/boards", (req, res) => {
 			}
 		});
 	} catch (err) {
+		console.log(err);
 		req.flash("error", err);
 		res.redirect("/");
 	}
@@ -76,19 +78,26 @@ app.get("/board/:id", (req, res) => {
 			}
 		});
 	} catch (err) {
+		console.log(err);
 		req.flash("error", err);
 		res.redirect("/");
 	}
 });
 
-app.post("/board", jsonParser, (req, res) => {
+app.post("/board", uploadMiddleware, jsonParser, (req, res) => {
 	const name = req.body.name;
 	const author = req.cookies.nickname;
+	if (req.file) {
+		var imageName = req.file.filename;
+	} else {
+		var imageName = null;
+	}
 
 	try {
-		if (name.length == 0 || author.length == 0) throw "Неверно заполнены данные";
+		if (name.length == 0 || author.length == 0)
+			throw "Неверно заполнены данные";
 
-		BoardsController.createBoard(name, author, (status) => {
+		BoardsController.createBoard(name, author, imageName, (status) => {
 			if (status) {
 				res.redirect("/boards");
 			} else {
@@ -96,29 +105,43 @@ app.post("/board", jsonParser, (req, res) => {
 			}
 		});
 	} catch (err) {
+		console.log(err);
 		req.flash("error", err);
 		res.redirect("/");
 	}
 });
 
-app.post("/message", jsonParser, (req, res) => {
+app.post("/message", uploadMiddleware, jsonParser, (req, res) => {
 	const message = req.body.message;
 	const author = req.cookies.nickname;
 	const boardId = req.body.boardId;
+
+	if (req.file) {
+		var imageName = req.file.filename;
+	} else {
+		var imageName = null;
+	}
 
 	try {
 		if (message.length == 0 || author.length == 0 || boardId.length == 0) {
 			throw "Неверно заполнена форма";
 		}
 
-		BoardsController.createMessage(author, message, boardId, (status) => {
-			if (status) {
-				res.redirect("/board/" + boardId);
-			} else {
-				throw "Ошибка сервера или доски не существует";
+		BoardsController.createMessage(
+			author,
+			message,
+			imageName,
+			boardId,
+			(status) => {
+				if (status) {
+					res.redirect("/board/" + boardId);
+				} else {
+					throw "Ошибка сервера или доски не существует";
+				}
 			}
-		});
+		);
 	} catch (err) {
+		console.log(err);
 		req.flash("error", err);
 		res.redirect("/");
 	}
@@ -142,6 +165,7 @@ app.get("/stats", (req, res) => {
 			});
 		});
 	} catch (err) {
+		console.log(err);
 		req.flash("error", err);
 		res.redirect("/");
 	}
@@ -159,6 +183,13 @@ app.post("/nickname", jsonParser, (req, res) => {
 	res.redirect("/nickname");
 });
 
-app.listen("3000", "127.0.0.1", () => {
-	console.log(chalk.yellow("Server Has Started at 127.0.0.1:3000"));
+app.listen(process.env.HOST_PORT, process.env.HOST_ADDRESS, () => {
+	console.log(
+		chalk.yellow(
+			"Server Has Started at " +
+				process.env.HOST_ADDRESS +
+				":" +
+				process.env.HOST_PORT
+		)
+	);
 });
