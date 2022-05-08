@@ -29,7 +29,7 @@ OR
 If you want to delete all entries in the database, then call the command
 ``node index format-db``
 OR
-``npm rut formatDB``
+``npm run formatDB``
 
 RoadMap: 
 to translate into other languages
