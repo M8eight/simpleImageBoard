@@ -1,5 +1,5 @@
 ## simple imageBoard
-#### Current version: 0.2.1!
+#### Current version: 0.3.1!
 
 > This project, a small imageboard on node js
 
