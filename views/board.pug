@@ -14,7 +14,8 @@ include partials/master
                     .card-body
                         .imagePlace
                             if message.image != none
-                                img(id="postImage" width="200" src=`/img/${message.image}` class="mb-3")
+                                a(href=`/img/${message.image}` target="_blank")
+                                    img(id="postImage" width="200" src=`/img/${message.image}` class="mb-3")
                         .col-8
                             span.card-text #{message.message}
                         span.card-title 

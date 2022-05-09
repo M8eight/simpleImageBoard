@@ -9,7 +9,8 @@ include partials/master
                 .card.text-black.bg-light.mb-2.p-2
                     .imagePlace
                         if board.image
-                            img(id="postImage" width="500px" src=`img/${board.image}` class="img-thumbnail")
+                            a(href=`/img/${board.image}` target="_blank")
+                                img(id="postImage" width="500px" src=`/img/${board.image}` class="img-thumbnail")
                     .card-body
                         h5.card-title 
                             a(href=`/board/${board.id}`) #{board.name}
