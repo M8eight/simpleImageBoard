@@ -1,5 +1,4 @@
-## simple imageBoard
-#### Current version: 0.3.1!
+# simple imageBoard
 
 > This project, a small imageboard on node js
 
@@ -35,5 +34,3 @@ RoadMap:
 to translate into other languages
 make images zoom in when you click on them
 unload by files, index.js file
-
-@m8eight
