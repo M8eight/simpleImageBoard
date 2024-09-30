@@ -1,36 +1,22 @@
 # simple imageBoard
 
-> This project, a small imageboard on node js
+> Этот проект это маленький имиджборд на nodeJS
 
-To deploy the project run
-1. ``npm install``
-2. Create a database in mysql with any name
-3. Create an .env file and fill it as in ``.env-example``
-#### ``.env`` structure
-- ``HOST_ADDRESS`` The address you want to use
-- ``HOST_PORT`` The port where the project will be located
-- ``DB_NAME`` The name of the database you created
-- ``DB_LOGIN`` Your database username
-- ``DB_PASSWORD`` Your database password
+Для запуска проекта с помощью docker выполните следующие действия
+1. Выполните ``npm i`` в проекте
+2. Выполните в терминале ``docker container run --rm --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=filmsbase -d mysql:9.0.1``
+(Запускается mysql демон с параметрами MYSQL_ROOT_PASSWORD=1234, MYSQL_DATABASE=imageboard, Имя пользователя = root)
+5. Преименуйте ``.env-example`` в .env
+6. Старт с помощью npm start
 
-4. Run the command: 
-``node index format-db``
-OR
-``npm run formatDB``,
-open public server at the address and port you have chosen, go to the "boards" section and close the page.
-[Video guide](https://youtu.be/eSe7ta88ZBs).
+#### Структура .env
+- ``HOST_ADDRESS`` Адрес сервера
+- ``HOST_PORT`` Порт сервера
+- ``DB_NAME`` Имя базы данных
+- ``DB_LOGIN`` Имя пользователя для бд
+- ``DB_PASSWORD`` Пароль от имя бользователя бд
 
-5. To start, run the following command in the root of the project:
-``node index``
-OR
-``npm start``
-
-If you want to delete all entries in the database, then call the command
+Для транкейта базы данных программа запускается с помощью команды:
 ``node index format-db``
 OR
 ``npm run formatDB``
-
-RoadMap: 
-to translate into other languages
-make images zoom in when you click on them
-unload by files, index.js file
